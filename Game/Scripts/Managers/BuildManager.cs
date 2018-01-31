@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.Scripts.Building;
 using Game.Scripts.DTO;
 using UnityEngine;
@@ -28,8 +27,8 @@ namespace Game.Scripts.Managers
         {
             spawnerdMakets = new List<GameObject>();
             BuilderData buidler = new BuilderData();
-            build(buidler.GetRoom(Enums.RoomSize.ROOM_4, Enums.RoomType.HANGAR), 0, Constants.gridMaxY - 1);
-            build(buidler.GetRoom(Enums.RoomSize.ROOM_1, Enums.RoomType.ELEVATOR), 4, Constants.gridMaxY - 1);
+            Build(buidler.GetRoom(Enums.RoomSize.Room4, Enums.RoomType.Hangar), 0, Constants.gridMaxY - 1);
+            Build(buidler.GetRoom(Enums.RoomSize.Room1, Enums.RoomType.Elevator), 4, Constants.gridMaxY - 1);
         }
 
         public void destroyMarkers()
@@ -61,7 +60,7 @@ namespace Game.Scripts.Managers
                                 });
         }
 
-        public void build(Room room, int startX, int y)
+        public void Build(Room room, int startX, int y)
         {
             //set room size (how many tiles will be occuppied);
             int roomSize = (int) room.GetRoomSize() + startX;
@@ -81,7 +80,7 @@ namespace Game.Scripts.Managers
             spawnerdMakets.ForEach(Destroy);
         }
 
-        private void createMaket(int x, int y, Enums.RoomSize roomSize)
+        private void CreateMaket(int x, int y, Enums.RoomSize roomSize)
         {
             Instantiate(buildingMakets[(int) roomSize], new Vector3(x, y, 0), Quaternion.identity);
         }

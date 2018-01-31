@@ -79,7 +79,7 @@ namespace Game.Scripts.Managers
             Enums.GameLayer newLayer;
             if (_eventSystem.IsPointerOverGameObject())
             {
-                newLayer = Enums.GameLayer.GUI;
+                newLayer = Enums.GameLayer.Gui;
             }
             else
             {
@@ -101,7 +101,7 @@ namespace Game.Scripts.Managers
                 }
                 else
                 {
-                    newLayer = Enums.GameLayer.GAME;
+                    newLayer = Enums.GameLayer.Game;
                 }
             }
 

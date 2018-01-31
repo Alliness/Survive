@@ -39,7 +39,7 @@ namespace Game.Scripts.Managers
                 target.Translate(transform.up * -Input.GetAxis("Mouse Y") *  CalcUtils.percentMultiplier(panSpeed, distanceMultiplier), Space.World);
             }
 
-            if (EventController.instance.GetLayer() != Enums.GameLayer.GUI)
+            if (EventController.instance.GetLayer() != Enums.GameLayer.Gui)
             {
                 desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
                                    Mathf.Abs(desiredDistance);

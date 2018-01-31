@@ -41,8 +41,8 @@ namespace Game.Scripts.Building
         public void SetRoomSize(Enums.RoomSize size)
         {
             RoomSize = size;
-            isElevator = RoomSize == Enums.RoomSize.ROOM_1;
-            gameObject.layer = (int) Enums.GameLayer.ROOM;
+            isElevator = RoomSize == Enums.RoomSize.Room1;
+            gameObject.layer = (int) Enums.GameLayer.Room;
         }
 
         public bool IsElevator()

@@ -12,7 +12,7 @@ namespace Game.Scripts.Managers
         {
             if (Input.GetMouseButton(0))
             {
-                BuildManager.instance.build(_room, (int) transform.position.x/Constants.tileSizeX, (int) transform.position.y/Constants.tileSizeY);
+                BuildManager.instance.Build(_room, (int) transform.position.x/Constants.tileSizeX, (int) transform.position.y/Constants.tileSizeY);
             }
         }
 

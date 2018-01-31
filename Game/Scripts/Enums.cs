@@ -5,32 +5,32 @@
         
         public enum GameLayer
         {
-            GAME = 8,
-            GUI = 9,
-            ROOM = 10
+            Game = 8,
+            Gui = 9,
+            Room = 10
             
         }
         
         public enum RoomSize
         {
-            ROOM_0 = 0,
-            ROOM_1 = 1,
-            ROOM_2 = 2,
-            ROOM_3 = 3,
-            ROOM_4 = 4
+            Room0 = 0,
+            Room1 = 1,
+            Room2 = 2,
+            Room3 = 3,
+            Room4 = 4
         }
         
         public enum RoomType
         {
-            HANGAR = 0,
-            ELEVATOR = 1,
-            LIVING_ROOM = 2,
-            CANTEEN = 3,
-            ENGINEERING = 4,
-            STORAGE = 5,
-            RADIO_STATION = 6,
-            CLINIC = 7,
-            LIBRARY = 8
+            Hangar = 0,
+            Elevator = 1,
+            LivingRoom = 2,
+            Canteen = 3,
+            Engineering = 4,
+            Storage = 5,
+            RadioStation = 6,
+            Clinic = 7,
+            Library = 8
         }
     }
 }

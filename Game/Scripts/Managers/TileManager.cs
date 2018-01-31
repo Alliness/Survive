@@ -60,7 +60,7 @@ namespace Game.Scripts.Managers
                         bool up = yIsFalid(y + 1);
 
                         //if target block is elevator,  and we want to build elevator - validate possibility to build on up/down sector
-                        if (currentTile.isElevator && roomSize == Enums.RoomSize.ROOM_1)
+                        if (currentTile.isElevator && roomSize == Enums.RoomSize.Room1)
                         {
                             if (down && isFree(x, y - 1))
                             {
