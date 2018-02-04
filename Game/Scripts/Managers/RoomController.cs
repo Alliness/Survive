@@ -1,4 +1,5 @@
 ﻿using Game.Scripts.DTO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Scripts.Managers
@@ -6,21 +7,29 @@ namespace Game.Scripts.Managers
     public class RoomController : MonoBehaviour
     {
         private Room _room;
-        private GameObject _selectedFrame;
         private bool _isSeleted;
 
-        private void Start()
-        {
-            _selectedFrame = transform.Find("selected").gameObject;
-            Unselect();
-        }
+        private GameObject _model;
 
-        public void SetRoom(Room room)
+        private Material _matDefault;
+        private Material _matSelected;
+
+        private MeshRenderer _meshRenderer;
+
+
+        public void SetRoom(Room room, GameObject model)
         {
             _room = room;
+            _model = model;
             name = room.name;
-        }
 
+            var prefab = Resources.Load("Prefabs/Building/Rooms/Materials/Selected");
+
+            _matSelected = Instantiate(prefab) as Material;
+            _meshRenderer = _model.GetComponentInChildren<MeshRenderer>();
+            _matDefault = _meshRenderer.material;
+            Unselect();
+        }
 
         public Room GetRoom()
         {
@@ -37,33 +46,26 @@ namespace Game.Scripts.Managers
 
         public void Unselect()
         {
+            _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
             _isSeleted = false;
-            _selectedFrame.SetActive(false);
         }
 
         public void Select()
         {
             _isSeleted = true;
-            _selectedFrame.SetActive(true);
-            GetComponentInParent<RoomsManager>().SetActiveRoom(this);
+            _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
         }
 
         private void OnMouseDown()
         {
-           Select();
         }
 
         private void OnMouseOver()
         {
-            _selectedFrame.SetActive(true);
         }
 
         private void OnMouseExit()
         {
-            if (!_isSeleted)
-            {
-                _selectedFrame.SetActive(false);
-            }
         }
     }
 }

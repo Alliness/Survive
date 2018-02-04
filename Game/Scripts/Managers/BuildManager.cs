@@ -73,10 +73,29 @@ namespace Game.Scripts.Managers
             }
 
             var firstTile = TileManager.instance.blocks[startX, y];
-            var building = Instantiate(buildingsObjects[(int) room.GetRoomSize()], firstTile.transform.position, Quaternion.identity);
-            building.GetComponentInChildren<RoomController>().SetRoom(room);
-            building.transform.SetParent(transform);
-            EventController.instance.buildNotify(building);
+
+            //add empty room GO
+            GameObject roomGO = Instantiate(new GameObject(room.name), firstTile.transform.position, Quaternion.identity);
+            roomGO.transform.SetParent(transform);
+
+            //attach model
+            var pos = new Vector3(room.size / 2 - 1, 0, 0);
+            Debug.Log(pos);
+            Debug.Log(roomSize);
+            var model = Instantiate(buildingsObjects[(int) room.GetRoomSize()],pos, Quaternion.identity);
+            model.transform.SetParent(roomGO.transform, false);
+
+            //attach roomController
+            RoomController controller = roomGO.AddComponent<RoomController>();
+            controller.SetRoom(room, model);
+
+            //add collider to room GO
+            var goCollider = roomGO.AddComponent<BoxCollider>();
+            goCollider.size = model.GetComponentInChildren<Renderer>().bounds.size;
+            goCollider.center = new Vector3(0, 1.5f, 0);
+
+            //after
+            EventController.instance.buildNotify(model);
             spawnerdMakets.ForEach(Destroy);
         }
 
