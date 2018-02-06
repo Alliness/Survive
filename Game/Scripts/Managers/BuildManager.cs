@@ -2,6 +2,7 @@
 using Game.Scripts.Building;
 using Game.Scripts.DTO;
 using UnityEngine;
+using UnityEngine.VR.WSA;
 
 namespace Game.Scripts.Managers
 {
@@ -27,8 +28,8 @@ namespace Game.Scripts.Managers
         {
             spawnerdMakets = new List<GameObject>();
             BuilderData buidler = new BuilderData();
-            Build(buidler.GetRoom(Enums.RoomSize.Room4, Enums.RoomType.Hangar), 0, Constants.gridMaxY - 1);
-            Build(buidler.GetRoom(Enums.RoomSize.Room1, Enums.RoomType.Elevator), 4, Constants.gridMaxY - 1);
+            Build(buidler.GetBySize(Enums.RoomSize.Room4), 0, Constants.gridMaxY - 1);
+            Build(buidler.GetBySize(Enums.RoomSize.Room1), 4, Constants.gridMaxY - 1);
         }
 
         public void destroyMarkers()
@@ -44,17 +45,16 @@ namespace Game.Scripts.Managers
             }
         }
 
-        public void selectSize(ContentItem item)
+        public void selectSize(Room room)
         {
             destroyMarkers();
 
-            GameObject selectedObjectMaket = buildingMakets[item.GetMaketId()];
-
-            var freeSectors = TileManager.instance.getAvailableToBuildArea(item.getRoom().GetRoomSize());
+            GameObject selectedObjectMaket = buildingMakets[room.id];
+            var freeSectors = TileManager.instance.getAvailableToBuildArea(room.GetRoomSize());
             freeSectors.ForEach(sector =>
                                 {
                                     var spawnerdMaket = Instantiate(selectedObjectMaket, sector.transform.position, Quaternion.identity);
-                                    spawnerdMaket.GetComponent<MaketController>().SetRoom(item.getRoom());
+                                    spawnerdMaket.GetComponent<MaketController>().SetRoom(room);
                                     spawnerdMakets.Add(spawnerdMaket);
                                     spawnerdMaket.transform.SetParent(spawnMaketsGO.transform);
                                 });
@@ -75,14 +75,12 @@ namespace Game.Scripts.Managers
             var firstTile = TileManager.instance.blocks[startX, y];
 
             //add empty room GO
-            GameObject roomGO = Instantiate(new GameObject(room.name), firstTile.transform.position, Quaternion.identity);
+            var pos = new Vector3(firstTile.transform.position.x + (room.size -1), firstTile.transform.position.y, firstTile.transform.position.z);
+            GameObject roomGO = Instantiate(new GameObject(room.name), pos, Quaternion.identity);
             roomGO.transform.SetParent(transform);
 
             //attach model
-            var pos = new Vector3(room.size / 2 - 1, 0, 0);
-            Debug.Log(pos);
-            Debug.Log(roomSize);
-            var model = Instantiate(buildingsObjects[(int) room.GetRoomSize()],pos, Quaternion.identity);
+            var model = Instantiate(buildingsObjects[(int) room.GetRoomSize()],Vector3.zero, Quaternion.identity);
             model.transform.SetParent(roomGO.transform, false);
 
             //attach roomController
@@ -96,6 +94,9 @@ namespace Game.Scripts.Managers
 
             //after
             EventController.instance.buildNotify(model);
+
+            roomGO.layer = (int) Enums.GameLayer.Room;
+            
             spawnerdMakets.ForEach(Destroy);
         }
 

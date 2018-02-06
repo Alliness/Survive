@@ -31,6 +31,11 @@ namespace Game.Scripts.Managers
         
         void LateUpdate()
         {
+            if (EventController.instance.GetLayer().Equals(Enums.GameLayer.Gui))
+            {
+                return; // no mouse events when on gui.                
+            }
+
             float distanceMultiplier = CalcUtils.getPrecents(-position.z, maxDistance);
             if (Input.GetMouseButton(2))
             {
@@ -39,15 +44,12 @@ namespace Game.Scripts.Managers
                 target.Translate(transform.up * -Input.GetAxis("Mouse Y") *  CalcUtils.percentMultiplier(panSpeed, distanceMultiplier), Space.World);
             }
 
-            if (EventController.instance.GetLayer() != Enums.GameLayer.Gui)
-            {
                 desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
                                    Mathf.Abs(desiredDistance);
 
                 desiredDistance = Mathf.Clamp(desiredDistance, minDistance, maxDistance);
                 currentDistance = Mathf.Lerp(currentDistance, desiredDistance, Time.deltaTime * zoomDampening);
                 
-            }
 
             position = target.position - ( Vector3.forward * currentDistance + targetOffset);
             transform.position = position;

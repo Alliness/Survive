@@ -66,7 +66,7 @@ namespace Game.Scripts.Managers
         private void Update()
         {
             checkLayer();
-//            KeysListener();
+            //            KeysListener();
         }
 
         public Enums.GameLayer GetLayer()
@@ -92,6 +92,7 @@ namespace Game.Scripts.Managers
                     {
                         previousGameObject = currentGameObject;
                         currentGameObject = go;
+                        
                         if (GameObjectHoverSubscribles != null) GameObjectHoverSubscribles(go);
                         if (GameObjectChangeSubscribles != null)
                             GameObjectChangeSubscribles(previousGameObject, currentGameObject);
@@ -109,17 +110,6 @@ namespace Game.Scripts.Managers
             {
                 currentLayer = newLayer;
                 if (LayerChangeSubscribles != null) LayerChangeSubscribles(newLayer);
-            }
-        }
-
-        void KeysListener()
-        {
-            //fixme require rework for key (wasd, esc, etc)
-            if (!string.IsNullOrEmpty(Input.inputString))
-            {
-                KeyCode code = (KeyCode) Enum.Parse(typeof(KeyCode), Input.inputString);
-                Debug.Log(code);
-                if (OnkeyDownSubscribles != null) OnkeyDownSubscribles(code);
             }
         }
 

@@ -32,5 +32,12 @@
             Clinic = 7,
             Library = 8
         }
+        
+        public enum GuiMode
+        {
+            Base = 1,
+            Room = 2,
+            Item = 3
+        }
     }
 }

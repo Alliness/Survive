@@ -26,12 +26,11 @@ namespace Game.Scripts.Building
                 rooms.Add(room);
             }
         }
-
-        public Room GetRoom(Enums.RoomSize size, Enums.RoomType type)
+        
+        public Room GetBySize(Enums.RoomSize size)
         {
-            foreach (var room in GetByType(type))
+            foreach (var room in rooms)
             {
-                
                 if (room.GetRoomSize().Equals(size))
                 {
                     return room;
@@ -39,33 +38,6 @@ namespace Game.Scripts.Building
             }
 
             return null;
-        }
-
-        public List<Room> GetByType(Enums.RoomType type)
-        {
-            List<Room> result = new List<Room>();
-            foreach (var room in rooms)
-            {
-                if (room.GetRoomType().Equals(type))
-                {
-                    result.Add(room);
-                }
-            }
-            return result;
-        }
-
-        public List<Room> GetBySize(Enums.RoomSize size)
-        {
-            List<Room> result = new List<Room>();
-            foreach (var room in rooms)
-            {
-                if (room.GetRoomSize().Equals(size))
-                {
-                    result.Add(room);
-                }
-            }
-
-            return result;
         }
     }
 }

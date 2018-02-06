@@ -35,5 +35,10 @@ namespace Game.Scripts.Managers
                 activeRoom = room;
             }
         }
+
+        public void UnsetRoom()
+        {
+            activeRoom = null;
+        }
     }
 }

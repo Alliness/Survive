@@ -48,24 +48,33 @@ namespace Game.Scripts.Managers
         {
             _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
             _isSeleted = false;
+            GetComponentInParent<RoomsManager>().UnsetRoom();
+
         }
 
         public void Select()
         {
-            _isSeleted = true;
             _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
+            _isSeleted = true;
+            GetComponentInParent<RoomsManager>().SetActiveRoom(this);
+            
+            
         }
 
         private void OnMouseDown()
         {
+            Select();
         }
 
         private void OnMouseOver()
         {
+            _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
         }
 
         private void OnMouseExit()
         {
+            if (!_isSeleted)
+                _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
         }
     }
 }
