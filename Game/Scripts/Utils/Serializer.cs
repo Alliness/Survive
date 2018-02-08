@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Utils
 {
-    public class JsonSerializer
+    public class Serializer
     {
         public static T Deserialize<T>(JObject json)
         {

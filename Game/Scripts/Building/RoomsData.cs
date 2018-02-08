@@ -10,11 +10,11 @@ using UnityEngine;
 
 namespace Game.Scripts.Building
 {
-    public class BuilderData
+    public class RoomsData
     {
         private List<Room> rooms;
 
-        public BuilderData()
+        public RoomsData()
         {
             rooms = new List<Room>();
 
@@ -22,7 +22,7 @@ namespace Game.Scripts.Building
 
             foreach (var jToken in roomsArray)
             {
-                Room room = JsonSerializer.Deserialize<Room>((JObject) jToken);
+                Room room = Serializer.Deserialize<Room>((JObject) jToken);
                 rooms.Add(room);
             }
         }

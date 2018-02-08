@@ -12,10 +12,6 @@ namespace Game.Scripts
         public static readonly int tileSizeY = 3;
         public static readonly int tileSizeZ = 3;
 
-        public static readonly int gridStartPosX = 0;
-        public static readonly int gridStartPosY = 0;
-        public static readonly Vector3 TileSize = new Vector3(tileSizeX, tileSizeY, tileSizeZ);
-
 
         public class Dir
         {

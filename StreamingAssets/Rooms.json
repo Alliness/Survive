@@ -2,33 +2,49 @@
   {
     "id": 1,
     "size": 1,
-    "name":"Elevator",
+    "name": "Elevator",
     "buildTime": "",
     "description": "Elevator Room",
-    "view": {"icon": "", "model":"Prefab/Building/Rooms/Frame_3_2"}
+    "view": {
+      "icon": "",
+      "model": "Prefabs/Building/Rooms/Frame_1",
+      "maket" : "Prefabs/Building/Makets/Maket_1"
+    }
   },
   {
     "id": 2,
     "size": 2,
-    "name":"Small",
+    "name": "Small",
     "buildTime": "",
     "description": "Small Size Room",
-    "view": {"icon": "", "model":"Prefab/Building/Rooms/Frame_3_4"}
+    "view": {
+      "icon": "",
+      "model": "Prefabs/Building/Rooms/Frame_2",
+      "maket" : "Prefabs/Building/Makets/Maket_2"
+    }
   },
   {
     "id": 3,
     "size": 3,
-    "name":"Medium",
+    "name": "Medium",
     "buildTime": "",
     "description": "Medium Size Room",
-    "view": {"icon": "", "model":"Prefab/Building/Rooms/Frame_3_6"}
+    "view": {
+      "icon": "",
+      "model": "Prefabs/Building/Rooms/Frame_3",
+      "maket" : "Prefabs/Building/Makets/Maket_3"
+    }
   },
   {
     "id": 4,
     "size": 4,
-    "name":"Large",
-    "buildTime": "Large Size Room",
-    "description": "Elevator",
-    "view": {"icon": "", "model":"Prefab/Building/Rooms/Frame_3_8"}
+    "name": "Large",
+    "buildTime": "",
+    "description": "Large Size Room",
+    "view": {
+      "icon": "",
+      "model": "Prefabs/Building/Rooms/Frame_4",
+      "maket" : "Prefabs/Building/Makets/Maket_4"
+    }
   }
 ]

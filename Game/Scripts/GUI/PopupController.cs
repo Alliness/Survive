@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Scripts.Building;
+using Game.Scripts.Building.Rooms;
 using Game.Scripts.DTO;
 using Game.Scripts.Managers;
 using Game.Scripts.Utils;
+using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEngine;
@@ -26,21 +29,47 @@ namespace Game.Scripts.GUI
         private void Start()
         {
             hide();
+            EventController.instance.OnActiveRoomChangeSubscribles += hidePopupOnRoomSelect;
+        }
+
+        /**
+         * Close popup if some room is selected
+         */
+        private void hidePopupOnRoomSelect(RoomController room)
+        {
+            hide();
         }
 
 
+        private void Update()
+        {
+            if (popup.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+            {
+                hide();
+            }
+        }
+
+        #region DragPopupMethods
+
+        [UsedImplicitly]
         public void DragStart()
         {
             offsetX = transform.position.x - Input.mousePosition.x;
             offsetY = transform.position.y - Input.mousePosition.y;
         }
 
+        [UsedImplicitly]
         public void OnDrag()
         {
             transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
         }
 
+        #endregion
 
+        
+        /**
+         * Show list of available to build rooms from @Resousrce : Rooms.json
+         */
         public void ShowRooms()
         {
             List<PopupItemDTO> list = new List<PopupItemDTO>();
@@ -48,17 +77,24 @@ namespace Game.Scripts.GUI
 
             foreach (var jToken in array)
             {
-                Room room = JsonSerializer.Deserialize<Room>((JObject) jToken);
+                Room room = Serializer.Deserialize<Room>((JObject) jToken);
                 var dto = new PopupItemDTO();
                 dto.title = room.name;
                 dto.imagePath = room.view.icon;
-                dto.onClickAction = () => BuildManager.instance.selectSize(room);
+                dto.onClickAction = () =>
+                                    {
+                                        hide();
+                                        BuildManager.instance.ShowAvailableAreaToBuild(room);
+                                    };
                 list.Add(dto);
             }
 
             createPopup("Rooms", list);
         }
 
+        /**
+         * show popup with List of content PopupItemDTO
+         */
         public void createPopup(String titleText, List<PopupItemDTO> content)
         {
             if (popup.activeSelf)
@@ -67,8 +103,8 @@ namespace Game.Scripts.GUI
             }
 
             show();
-            Text popupText = popup.transform.Find("Title").GetComponent<Text>();
-            Button closeButton = popup.transform.Find("Close").GetComponent<Button>();
+            Text popupText = transform.FindDeepChild("Title").GetComponent<Text>();
+            Button closeButton = transform.FindDeepChild("Close").GetComponent<Button>();
             popupText.text = titleText;
 
             closeButton.onClick.AddListener(hide);
@@ -86,6 +122,9 @@ namespace Game.Scripts.GUI
             rect.sizeDelta = new Vector2(rect.sizeDelta.x, y);
         }
 
+        /**
+         * Clear popup content(Not hide popup instance)
+         */
         private void clearContent()
         {
             foreach (Transform child in contentBlock.transform)
@@ -94,18 +133,25 @@ namespace Game.Scripts.GUI
             }
         }
 
+        
+        /**
+         * hide popup and clear content
+         */
         private void hide()
         {
-            
             clearContent();
             popup.SetActive(false);
         }
 
+        /**
+         * show popup
+         */
         private void show()
         {
             popup.SetActive(true);
         }
 
+        //todo list of storage items
         public void ShowStorage()
         {
             throw new NotImplementedException();

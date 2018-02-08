@@ -7,7 +7,6 @@ namespace Game.Scripts.GUI
     public class PopupItem : MonoBehaviour
     {
         public Text text;
-
         public Image image;
         private PopupItemDTO _dto;
 
@@ -16,6 +15,8 @@ namespace Game.Scripts.GUI
             _dto = dto;
             text.text = dto.title;
             image.material = Resources.Load<Material>(dto.imagePath);
+            
+            GetComponentInChildren<Button>().onClick.AddListener(dto.onClickAction);
         }
     }
 }

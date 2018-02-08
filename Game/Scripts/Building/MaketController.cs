@@ -1,7 +1,7 @@
 ﻿using Game.Scripts.DTO;
 using UnityEngine;
 
-namespace Game.Scripts.Managers
+namespace Game.Scripts.Building
 {
     public class MaketController : MonoBehaviour
     {

@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
-using Game.Scripts.Building;
+using Game.Scripts.Building.Rooms;
 using Game.Scripts.DTO;
+using Game.Scripts.Managers;
 using UnityEngine;
-using UnityEngine.VR.WSA;
 
-namespace Game.Scripts.Managers
+namespace Game.Scripts.Building
 {
     public class BuildManager : MonoBehaviour
     {
         [HideInInspector] public static BuildManager instance;
 
-        public GameObject[] buildingsObjects;
-        public GameObject[] buildingMakets;
-
-        public List<GameObject> spawnerdMakets;
+        public List<GameObject> spawnerdMakets; //list of active makets go
         public GameObject spawnMaketsGO;
 
         private void Awake()
@@ -24,14 +21,20 @@ namespace Game.Scripts.Managers
             }
         }
 
+        /**
+         * create hangar(ROOM4) and elevator(ROOM1)
+         */
         private void Start()
         {
             spawnerdMakets = new List<GameObject>();
-            BuilderData buidler = new BuilderData();
+            RoomsData buidler = new RoomsData();
             Build(buidler.GetBySize(Enums.RoomSize.Room4), 0, Constants.gridMaxY - 1);
             Build(buidler.GetBySize(Enums.RoomSize.Room1), 4, Constants.gridMaxY - 1);
         }
 
+        /**
+         * Destroy active build makets
+         */
         public void destroyMarkers()
         {
             spawnerdMakets.ForEach(Destroy);
@@ -45,21 +48,26 @@ namespace Game.Scripts.Managers
             }
         }
 
-        public void selectSize(Room room)
+        /**
+         * Show Available area for Room 
+         */
+        public void ShowAvailableAreaToBuild(Room room)
         {
             destroyMarkers();
 
-            GameObject selectedObjectMaket = buildingMakets[room.id];
             var freeSectors = TileManager.instance.getAvailableToBuildArea(room.GetRoomSize());
             freeSectors.ForEach(sector =>
                                 {
-                                    var spawnerdMaket = Instantiate(selectedObjectMaket, sector.transform.position, Quaternion.identity);
+                                    var spawnerdMaket = Instantiate(Resources.Load<GameObject>(room.view.maket), sector.transform.position, Quaternion.identity);
+                                    spawnerdMaket.transform.SetParent(spawnMaketsGO.transform, false);
                                     spawnerdMaket.GetComponent<MaketController>().SetRoom(room);
                                     spawnerdMakets.Add(spawnerdMaket);
-                                    spawnerdMaket.transform.SetParent(spawnMaketsGO.transform);
                                 });
         }
 
+        /**
+         * Build room in start tile coord
+         */
         public void Build(Room room, int startX, int y)
         {
             //set room size (how many tiles will be occuppied);
@@ -75,12 +83,12 @@ namespace Game.Scripts.Managers
             var firstTile = TileManager.instance.blocks[startX, y];
 
             //add empty room GO
-            var pos = new Vector3(firstTile.transform.position.x + (room.size -1), firstTile.transform.position.y, firstTile.transform.position.z);
+            var pos = new Vector3(firstTile.transform.position.x + (room.size - 1), firstTile.transform.position.y, firstTile.transform.position.z);
             GameObject roomGO = Instantiate(new GameObject(room.name), pos, Quaternion.identity);
             roomGO.transform.SetParent(transform);
 
             //attach model
-            var model = Instantiate(buildingsObjects[(int) room.GetRoomSize()],Vector3.zero, Quaternion.identity);
+            var model = Instantiate(Resources.Load<GameObject>(room.view.model), Vector3.zero, Quaternion.identity);
             model.transform.SetParent(roomGO.transform, false);
 
             //attach roomController
@@ -96,13 +104,8 @@ namespace Game.Scripts.Managers
             EventController.instance.buildNotify(model);
 
             roomGO.layer = (int) Enums.GameLayer.Room;
-            
-            spawnerdMakets.ForEach(Destroy);
-        }
 
-        private void CreateMaket(int x, int y, Enums.RoomSize roomSize)
-        {
-            Instantiate(buildingMakets[(int) roomSize], new Vector3(x, y, 0), Quaternion.identity);
+            spawnerdMakets.ForEach(Destroy);
         }
     }
 }

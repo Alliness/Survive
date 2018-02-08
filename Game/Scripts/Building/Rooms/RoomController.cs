@@ -1,8 +1,8 @@
 ﻿using Game.Scripts.DTO;
-using UnityEditor;
+using Game.Scripts.Managers;
 using UnityEngine;
 
-namespace Game.Scripts.Managers
+namespace Game.Scripts.Building.Rooms
 {
     public class RoomController : MonoBehaviour
     {
@@ -15,7 +15,17 @@ namespace Game.Scripts.Managers
         private Material _matSelected;
 
         private MeshRenderer _meshRenderer;
+        private bool coolliderEnabled;
 
+        private void Start()
+        {
+            EventController.instance.LayerChangeSubscribles += ToggleCollider;
+        }
+
+        private void ToggleCollider(Enums.GameLayer layer)
+        {
+            GetComponent<Collider>().enabled = layer == Enums.GameLayer.Game || layer == Enums.GameLayer.Room;
+        }
 
         public void SetRoom(Room room, GameObject model)
         {
@@ -48,17 +58,13 @@ namespace Game.Scripts.Managers
         {
             _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
             _isSeleted = false;
-            GetComponentInParent<RoomsManager>().UnsetRoom();
-
         }
 
         public void Select()
         {
             _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
             _isSeleted = true;
-            GetComponentInParent<RoomsManager>().SetActiveRoom(this);
-            
-            
+            RoomsManager.instance.SetActiveRoom(this);
         }
 
         private void OnMouseDown()

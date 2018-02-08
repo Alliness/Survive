@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Scripts.Building.Rooms;
 using Game.Scripts.DTO;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -47,6 +48,11 @@ namespace Game.Scripts.Managers
 
         #endregion
 
+        public event OnActiveRoom OnActiveRoomChangeSubscribles;
+
+        public delegate void OnActiveRoom(RoomController room);
+        
+        
         private EventSystem _eventSystem;
 
         private Enums.GameLayer currentLayer;
@@ -116,6 +122,11 @@ namespace Game.Scripts.Managers
         public void buildNotify(GameObject room)
         {
             if (OnBuildSuccessSubscribles != null) OnBuildSuccessSubscribles(room);
+        }
+
+        public void activeRoomNotify(RoomController roomController)
+        {
+            if (OnActiveRoomChangeSubscribles != null) OnActiveRoomChangeSubscribles(roomController);
         }
     }
 }

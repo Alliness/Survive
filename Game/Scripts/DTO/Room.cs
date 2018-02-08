@@ -4,6 +4,7 @@
     {
         public string model { get; set; }
         public string icon { get; set; }
+        public string maket { get; set; }
     }
 
     public class Room
