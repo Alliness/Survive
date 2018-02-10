@@ -7,7 +7,7 @@ namespace Game.Scripts.Building.Rooms
     public class RoomsManager : MonoBehaviour
     {
         private List<GameObject> rooms; // list of builded rooms
-        private RoomController activeRoom; // current selected room
+        private Room activeRoom; // current selected room
 
         [HideInInspector] public static RoomsManager instance;
 
@@ -17,18 +17,14 @@ namespace Game.Scripts.Building.Rooms
             {
                 instance = this;
             }
-        }
-
-        void Start()
-        {
             rooms = new List<GameObject>();
-            EventController.instance.OnBuildSuccessSubscribles += addRoom;
+
         }
 
         /**
          * Add created Room GO  to Rooms List
          */
-        private void addRoom(GameObject room)
+        public void AddRoom(GameObject room)
         {
             rooms.Add(room);
             if (activeRoom != null)
@@ -38,14 +34,17 @@ namespace Game.Scripts.Building.Rooms
             }
         }
 
+
         public List<GameObject> GetRooms()
         {
             return rooms;
         }
+
         /**
          * Return active (selected) Room
          */
-        public RoomController GetActiveRoom()
+
+        public Room GetActiveRoom()
         {
             return activeRoom;
         }
@@ -53,7 +52,8 @@ namespace Game.Scripts.Building.Rooms
         /**
          * set Active room
          */
-        public void SetActiveRoom(RoomController room)
+
+        public void SetActiveRoom(Room room)
         {
             UnsetActiveRoom();
             activeRoom = room;
@@ -63,6 +63,7 @@ namespace Game.Scripts.Building.Rooms
         /**
          * Unset active room
          */
+
         public void UnsetActiveRoom()
         {
             if (activeRoom != null)

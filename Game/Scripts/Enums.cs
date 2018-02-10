@@ -39,5 +39,24 @@
             Room = 2,
             Item = 3
         }
+        
+        public class Actor
+        {
+            public enum ActorGender
+            {
+                MALE, FEMALE
+            }
+
+            public enum ActorType
+            {
+                HUMANOID, CREATURE, BEAST
+            }
+
+            public enum ActorState
+            {
+                IDLE,BUSY,WORK,MOVE,ATTACK
+            }
+        }
+        
     }
 }

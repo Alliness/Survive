@@ -12,7 +12,9 @@ namespace Game.Scripts.Utils
         {
             try
             {
-                var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+                var settings = new JsonSerializerSettings();
+                settings.TypeNameHandling = TypeNameHandling.All;
+                settings.NullValueHandling = NullValueHandling.Ignore;
                 return JsonConvert.DeserializeObject<T>(json.ToString(), settings);
             }
             catch (Exception e)

@@ -1,5 +1,7 @@
-﻿using Game.Scripts.Building;
+﻿using Game.Scripts.Actor;
+using Game.Scripts.Building;
 using Game.Scripts.Building.Rooms;
+using Game.Scripts.DTO.Actor;
 using Game.Scripts.Managers;
 using UnityEngine;
 
@@ -64,7 +66,11 @@ namespace Game.Scripts.GUI
             controller.Clear();
 
             controller.AddButton("Build", () => popup.GetComponent<PopupController>().ShowRooms());
-            controller.AddButton("Map", () => Debug.Log("map"));
+            controller.AddButton("Add Survivor", () =>
+                                                 {
+                                                     SurvivorDTO dto = new SurvivorsData().GetAll()[0];
+                                                     SurvivorsManager.instance.SpawnSurvivor(dto);
+                                                 });
             controller.AddButton("Storage", () => popup.GetComponent<PopupController>().ShowStorage());
             controller.AddButton("Expedition", () => Debug.Log("Expedition"));
         }

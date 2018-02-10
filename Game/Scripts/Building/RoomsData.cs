@@ -12,22 +12,22 @@ namespace Game.Scripts.Building
 {
     public class RoomsData
     {
-        private List<Room> rooms;
+        private List<RoomDTO> rooms;
 
         public RoomsData()
         {
-            rooms = new List<Room>();
+            rooms = new List<RoomDTO>();
 
             JArray roomsArray = FReader.FileToArray(Path.Combine(Constants.Dir.STREAMING_ASSETS, "Rooms.json"));
 
             foreach (var jToken in roomsArray)
             {
-                Room room = Serializer.Deserialize<Room>((JObject) jToken);
-                rooms.Add(room);
+                RoomDTO roomDto = Serializer.Deserialize<RoomDTO>((JObject) jToken);
+                rooms.Add(roomDto);
             }
         }
         
-        public Room GetBySize(Enums.RoomSize size)
+        public RoomDTO GetBySize(Enums.RoomSize size)
         {
             foreach (var room in rooms)
             {

@@ -3,6 +3,7 @@ using Game.Scripts.Building.Rooms;
 using Game.Scripts.DTO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Room = Game.Scripts.Building.Rooms.Room;
 
 namespace Game.Scripts.Managers
 {
@@ -18,15 +19,6 @@ namespace Game.Scripts.Managers
 
         #endregion
 
-        #region KeyboardKeyListener
-
-        public event OnKeyDown OnkeyDownSubscribles;
-
-        public delegate void OnKeyDown(KeyCode code);
-
-        #endregion
-
-
         #region GameObjectRaycastListener
 
         public event OnGameObjectHover GameObjectHoverSubscribles;
@@ -39,18 +31,18 @@ namespace Game.Scripts.Managers
         public delegate void OnGameObjectChange(GameObject lastGameObject, GameObject newGameObject);
 
         #endregion
-
-        #region RoomBuildListener
-
-        public event OnBuildSuccess OnBuildSuccessSubscribles;
-
-        public delegate void OnBuildSuccess(GameObject room);
-
-        #endregion
+//
+//        #region RoomBuildListener
+//
+//        public event OnBuildSuccess OnBuildSuccessSubscribles;
+//
+//        public delegate void OnBuildSuccess(GameObject room);
+//
+//        #endregion
 
         public event OnActiveRoom OnActiveRoomChangeSubscribles;
 
-        public delegate void OnActiveRoom(RoomController room);
+        public delegate void OnActiveRoom(Room room);
         
         
         private EventSystem _eventSystem;
@@ -119,14 +111,14 @@ namespace Game.Scripts.Managers
             }
         }
 
-        public void buildNotify(GameObject room)
-        {
-            if (OnBuildSuccessSubscribles != null) OnBuildSuccessSubscribles(room);
-        }
+//        public void buildNotify(GameObject room)
+//        {
+//            if (OnBuildSuccessSubscribles != null) OnBuildSuccessSubscribles(room);
+//        }
 
-        public void activeRoomNotify(RoomController roomController)
+        public void activeRoomNotify(Room room)
         {
-            if (OnActiveRoomChangeSubscribles != null) OnActiveRoomChangeSubscribles(roomController);
+            if (OnActiveRoomChangeSubscribles != null) OnActiveRoomChangeSubscribles(room);
         }
     }
 }

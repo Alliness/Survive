@@ -51,16 +51,16 @@ namespace Game.Scripts.Building
         /**
          * Show Available area for Room 
          */
-        public void ShowAvailableAreaToBuild(Room room)
+        public void ShowAvailableAreaToBuild(RoomDTO roomDto)
         {
             destroyMarkers();
 
-            var freeSectors = TileManager.instance.getAvailableToBuildArea(room.GetRoomSize());
+            var freeSectors = TileManager.instance.getAvailableToBuildArea(roomDto.GetRoomSize());
             freeSectors.ForEach(sector =>
                                 {
-                                    var spawnerdMaket = Instantiate(Resources.Load<GameObject>(room.view.maket), sector.transform.position, Quaternion.identity);
+                                    var spawnerdMaket = Instantiate(Resources.Load<GameObject>(roomDto.view.maket), sector.transform.position, Quaternion.identity);
                                     spawnerdMaket.transform.SetParent(spawnMaketsGO.transform, false);
-                                    spawnerdMaket.GetComponent<MaketController>().SetRoom(room);
+                                    spawnerdMaket.GetComponent<MaketController>().SetRoom(roomDto);
                                     spawnerdMakets.Add(spawnerdMaket);
                                 });
         }
@@ -68,32 +68,32 @@ namespace Game.Scripts.Building
         /**
          * Build room in start tile coord
          */
-        public void Build(Room room, int startX, int y)
+        public void Build(RoomDTO roomDto, int startX, int y)
         {
             //set room size (how many tiles will be occuppied);
-            int roomSize = (int) room.GetRoomSize() + startX;
+            int roomSize = (int) roomDto.GetRoomSize() + startX;
 
             for (int offset = startX; offset < roomSize; offset++)
             {
                 var c = TileManager.instance.blocks[offset, y].GetComponent<TileBlock>();
                 c.Occupied = true;
-                c.SetRoomSize(room.GetRoomSize());
+                c.SetRoomSize(roomDto.GetRoomSize());
             }
 
             var firstTile = TileManager.instance.blocks[startX, y];
 
             //add empty room GO
-            var pos = new Vector3(firstTile.transform.position.x + (room.size - 1), firstTile.transform.position.y, firstTile.transform.position.z);
-            GameObject roomGO = Instantiate(new GameObject(room.name), pos, Quaternion.identity);
+            var pos = new Vector3(firstTile.transform.position.x + (roomDto.size - 1), firstTile.transform.position.y, firstTile.transform.position.z);
+            GameObject roomGO = Instantiate(new GameObject(roomDto.name), pos, Quaternion.identity);
             roomGO.transform.SetParent(transform);
 
             //attach model
-            var model = Instantiate(Resources.Load<GameObject>(room.view.model), Vector3.zero, Quaternion.identity);
+            var model = Instantiate(Resources.Load<GameObject>(roomDto.view.model), Vector3.zero, Quaternion.identity);
             model.transform.SetParent(roomGO.transform, false);
 
             //attach roomController
-            RoomController controller = roomGO.AddComponent<RoomController>();
-            controller.SetRoom(room, model);
+            Room controller = roomGO.AddComponent<Room>();
+            controller.SetRoom(roomDto, model);
 
             //add collider to room GO
             var goCollider = roomGO.AddComponent<BoxCollider>();
@@ -101,10 +101,10 @@ namespace Game.Scripts.Building
             goCollider.center = new Vector3(0, 1.5f, 0);
 
             //after
-            EventController.instance.buildNotify(model);
 
             roomGO.layer = (int) Enums.GameLayer.Room;
 
+            RoomsManager.instance.AddRoom(roomGO);
             spawnerdMakets.ForEach(Destroy);
         }
     }

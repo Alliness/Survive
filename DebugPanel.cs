@@ -18,7 +18,7 @@ public class DebugPanel : MonoBehaviour
 		EventController.instance.OnActiveRoomChangeSubscribles += changeActiveRoom;
 	}
 
-	private void changeActiveRoom(RoomController room)
+	private void changeActiveRoom(Room room)
 	{
 		activeRoom.text = "Active Room: " + room.name;
 	}

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "John",
+    "lastName": "Doe",
+    "maxHealth": 100,
+    "view": {
+      "model": "Prefabs/Actor/TestModel",
+      "icon": "",
+      "maket": "",
+      "animation": {}
+    }
+  }
+]

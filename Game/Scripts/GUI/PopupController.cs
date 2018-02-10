@@ -11,6 +11,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Room = Game.Scripts.Building.Rooms.Room;
 
 namespace Game.Scripts.GUI
 {
@@ -35,7 +36,7 @@ namespace Game.Scripts.GUI
         /**
          * Close popup if some room is selected
          */
-        private void hidePopupOnRoomSelect(RoomController room)
+        private void hidePopupOnRoomSelect(Room room)
         {
             hide();
         }
@@ -77,14 +78,14 @@ namespace Game.Scripts.GUI
 
             foreach (var jToken in array)
             {
-                Room room = Serializer.Deserialize<Room>((JObject) jToken);
+                DTO.RoomDTO roomDto = Serializer.Deserialize<DTO.RoomDTO>((JObject) jToken);
                 var dto = new PopupItemDTO();
-                dto.title = room.name;
-                dto.imagePath = room.view.icon;
+                dto.title = roomDto.name;
+                dto.imagePath = roomDto.view.icon;
                 dto.onClickAction = () =>
                                     {
                                         hide();
-                                        BuildManager.instance.ShowAvailableAreaToBuild(room);
+                                        BuildManager.instance.ShowAvailableAreaToBuild(roomDto);
                                     };
                 list.Add(dto);
             }

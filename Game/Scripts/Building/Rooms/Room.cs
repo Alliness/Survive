@@ -1,13 +1,13 @@
-﻿using Game.Scripts.DTO;
-using Game.Scripts.Managers;
+﻿using Game.Scripts.Managers;
 using UnityEngine;
 
 namespace Game.Scripts.Building.Rooms
 {
-    public class RoomController : MonoBehaviour
+    public class Room : MonoBehaviour
     {
-        private Room _room;
-        private bool _isSeleted;
+        private DTO.RoomDTO _roomDtoData;
+        private bool _isSelected;
+        public bool isElevator;
 
         private GameObject _model;
 
@@ -27,11 +27,12 @@ namespace Game.Scripts.Building.Rooms
             GetComponent<Collider>().enabled = layer == Enums.GameLayer.Game || layer == Enums.GameLayer.Room;
         }
 
-        public void SetRoom(Room room, GameObject model)
+        public void SetRoom(DTO.RoomDTO roomDto, GameObject model)
         {
-            _room = room;
+            isElevator = roomDto.size == 1;
+            _roomDtoData = roomDto;
             _model = model;
-            name = room.name;
+            name = roomDto.name;
 
             var prefab = Resources.Load("Prefabs/Building/Rooms/Materials/Selected");
 
@@ -41,9 +42,9 @@ namespace Game.Scripts.Building.Rooms
             Unselect();
         }
 
-        public Room GetRoom()
+        public DTO.RoomDTO GetRoom()
         {
-            return _room;
+            return _roomDtoData;
         }
 
         private void Update()
@@ -57,13 +58,13 @@ namespace Game.Scripts.Building.Rooms
         public void Unselect()
         {
             _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
-            _isSeleted = false;
+            _isSelected = false;
         }
 
         public void Select()
         {
             _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
-            _isSeleted = true;
+            _isSelected = true;
             RoomsManager.instance.SetActiveRoom(this);
         }
 
@@ -72,15 +73,15 @@ namespace Game.Scripts.Building.Rooms
             Select();
         }
 
-        private void OnMouseOver()
-        {
-            _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
-        }
-
-        private void OnMouseExit()
-        {
-            if (!_isSeleted)
-                _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
-        }
+//        private void OnMouseOver()
+//        {
+//            _model.GetComponentInChildren<MeshRenderer>().material = _matSelected;
+//        }
+//
+//        private void OnMouseExit()
+//        {
+//            if (!_isSelected)
+//                _model.GetComponentInChildren<MeshRenderer>().material = _matDefault;
+//        }
     }
 }
